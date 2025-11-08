@@ -46,14 +46,17 @@ export default function BlogIndex({ data }) {
       <SEO title="Blog" />
       <h1>Blog</h1>
       <Grid>
-        {posts.map(({ id, frontmatter, fields, excerpt }) => (
-          <Card key={id} to={fields.slug}>
-            <Title>{frontmatter.title}</Title>
-            <Date>{frontmatter.date}</Date>
-            <Excerpt>{excerpt}</Excerpt>
-            <span style={{ color: 'var(--green)' }}>Read more →</span>
-          </Card>
-        ))}
+        {posts.map(({ id, frontmatter, excerpt, fileAbsolutePath }) => {
+          const slug = `/blog/${path.basename(fileAbsolutePath, '.md')}/`;
+          return (
+            <Card key={id} to={slug}>
+              <Title>{frontmatter.title}</Title>
+              <Date>{frontmatter.date}</Date>
+              <Excerpt>{excerpt}</Excerpt>
+              <span style={{ color: 'var(--green)' }}>Read more →</span>
+            </Card>
+          );
+        })}
       </Grid>
     </Layout>
   );
@@ -63,16 +66,16 @@ export const query = graphql`
   query {
     allMarkdownRemark(
       filter: { fileAbsolutePath: { regex: "/blog/" } }
-      sort: { frontmatter: { date: DESC } }
+      sort: { fields: [frontmatter___date], order: DESC }
     ) {
       nodes {
         id
-        fields { slug }
         frontmatter {
           title
           date(formatString: "YYYY-MM-DD")
         }
         excerpt(pruneLength: 120)
+        fileAbsolutePath
       }
     }
   }
