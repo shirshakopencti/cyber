@@ -2,7 +2,8 @@ import React from 'react';
 import { Link, graphql } from 'gatsby';
 import styled from 'styled-components';
 import Layout from '../components/layout';
-import SEO from '../components/seo';
+import Head from '../components/head';
+
 
 const Grid = styled.div`
   display: grid;
@@ -43,11 +44,11 @@ export default function BlogIndex({ data }) {
 
   return (
     <Layout>
-      <SEO title="Blog" />
+      <Head title="Blog" />
       <h1>Blog</h1>
       <Grid>
         {posts.map(({ id, frontmatter, excerpt, fileAbsolutePath }) => {
-          const slug = `/blog/${path.basename(fileAbsolutePath, '.md')}/`;
+          const slug = `/blog/${fileAbsolutePath.split('/').pop().replace('.md', '')}/`;
           return (
             <Card key={id} to={slug}>
               <Title>{frontmatter.title}</Title>
@@ -72,7 +73,7 @@ export const query = graphql`
         id
         frontmatter {
           title
-          date(formatString: "YYYY-MM-DD")
+          date
         }
         excerpt(pruneLength: 120)
         fileAbsolutePath
