@@ -4,6 +4,9 @@ import styled, { ThemeProvider } from 'styled-components';
 import { Head, Loader, Nav, Social, Email, Footer } from '@components';
 import { GlobalStyle, theme } from '@styles';
 
+const isBrowser = typeof window !== 'undefined';
+const safeLocation = isBrowser ? window.location : { hash: '' };
+
 const StyledContent = styled.div`
   display: flex;
   flex-direction: column;
@@ -32,8 +35,8 @@ const Layout = ({ children, location }) => {
       return;
     }
 
-    if (typeof window !== 'undefined' && location.hash) {
-      const id = location.hash.substring(1);
+    if (safeLocation.hash) {
+      const id = safeLocation.hash.substring(1);
       setTimeout(() => {
         const el = document.getElementById(id);
         if (el) {
