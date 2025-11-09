@@ -131,14 +131,17 @@ export default function BlogIndex({ data }) {
       <PageWrapper>
         <h1>Blog</h1>
         <Grid>
-          {posts.map(({ id, frontmatter, fields }) => (
-            <Card key={id} to={fields.slug}>
-              <Title>{frontmatter.title}</Title>
-              <Date>{frontmatter.date}</Date>
-              <Excerpt>{frontmatter.description || ''}</Excerpt>
-              <span aria-hidden style={{ color: 'var(--green)' }}>Read more →</span>
-            </Card>
-          ))}
+          {posts.map(({ id, frontmatter, fileAbsolutePath }) => {
+  const slug = `/blog/${fileAbsolutePath.split('/').pop().replace('.md', '')}/`;
+  return (
+    <Card key={id} to={slug}>
+      <Title>{frontmatter.title}</Title>
+      <Date>{frontmatter.date}</Date>
+      <Excerpt>{frontmatter.description || ''}</Excerpt>
+      <span aria-hidden style={{ color: 'var(--green)' }}>Read more →</span>
+    </Card>
+  );
+})}
         </Grid>
       </PageWrapper>
     </Layout>
@@ -159,7 +162,7 @@ export const query = graphql`
           date
           description
         }
-        fields { slug }
+        fileAbsolutePath
       }
     }
   }
