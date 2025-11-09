@@ -66,8 +66,8 @@ const Card = styled(Link)`
   transition: transform .25s, background .25s;
   &:hover {
   transform: translateY(-4px);
-  background: rgba(0, 204, 255, 0.85);
-  box-shadow: 0 0 15px rgba(0, 204, 255, 0.4);
+  background: linear-gradient(135deg, #00f5ff 0%, #00ffa3 100%);
+  box-shadow: 0 0 25px rgba(0, 255, 200, 0.5);
   color: #0a192f;
 }
 `;
