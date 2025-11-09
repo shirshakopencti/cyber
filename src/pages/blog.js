@@ -71,7 +71,7 @@ const Card = styled(Link)`
 `;
 ------------------------------------------------------------------ */
 
-/* 3  Retro-Terminal Card  ----------------------------------------
+/* 3  Retro-Terminal Card  ----------------------------------------*/
 const Card = styled(Link)`
   background: #000;
   border-left: 4px solid #64ffda;
@@ -87,9 +87,9 @@ const Card = styled(Link)`
     box-shadow: 4px 4px 0 #64ffda;
   }
 `;
------------------------------------------------------------------- */
+/*------------------------------------------------------------------ */
 
-/* 4  Minimal-Paper Card  ---------------------------------------- */
+/* 4  Minimal-Paper Card  ---------------------------------------- 
 const Card = styled(Link)`
   background: #ffffff;
   border: 1px solid #e5e7eb;
@@ -104,7 +104,7 @@ const Card = styled(Link)`
     box-shadow: 0 6px 18px rgba(0,0,0,.08);
   }
 `;
-/* ---------------------------------------------------------------- */
+---------------------------------------------------------------- */
 
 /* ----------  INNER CARD ELEMENTS  ---------- */
 const Title = styled.h3`
