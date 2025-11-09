@@ -65,9 +65,11 @@ const Card = styled(Link)`
   color: #ccd6f6;
   transition: transform .25s, background .25s;
   &:hover {
-    transform: translateY(-4px);
-    background: rgba(69, 183, 211, 1);
-  }
+  transform: translateY(-4px);
+  background: rgba(0, 204, 255, 0.85);
+  box-shadow: 0 0 15px rgba(0, 204, 255, 0.4);
+  color: #0a192f;
+}
 `;
 /*------------------------------------------------------------------ */
 
