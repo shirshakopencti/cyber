@@ -47,7 +47,7 @@ const Card = styled(Link)`
   }
   &:hover {
     transform: translateY(-4px);
-    box-shadow: 0 8px 24px rgba(100,255,218,.24);
+    box-shadow: 0 8px 24px rgba(28, 247, 255, 0.24);
     &::before{ opacity: .7; }
   }
 `;
