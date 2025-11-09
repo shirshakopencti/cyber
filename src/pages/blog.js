@@ -24,7 +24,7 @@ const Grid = styled.div`
    Pick ONE of the four blocks below and delete the rest.
 ------------------------------------------------------------------ */
 
-/* 1  Neon-Halo Card  ---------------------------------------------*/
+/* 1  Neon-Halo Card  ---------------------------------------------
 const Card = styled(Link)`
   position: relative;
   background: #0a192f;
@@ -51,7 +51,7 @@ const Card = styled(Link)`
     &::before{ opacity: .7; }
   }
 `;
-/*------------------------------------------------------------------ */
+------------------------------------------------------------------ */
 
 /* 2  Glass-morphism Card  ----------------------------------------
 const Card = styled(Link)`
@@ -89,7 +89,7 @@ const Card = styled(Link)`
 `;
 ------------------------------------------------------------------ */
 
-/* 4  Minimal-Paper Card  ---------------------------------------- 
+/* 4  Minimal-Paper Card  ---------------------------------------- */
 const Card = styled(Link)`
   background: #ffffff;
   border: 1px solid #e5e7eb;
@@ -104,7 +104,7 @@ const Card = styled(Link)`
     box-shadow: 0 6px 18px rgba(0,0,0,.08);
   }
 `;
----------------------------------------------------------------- */
+/*---------------------------------------------------------------- */
 
 /* ----------  INNER CARD ELEMENTS  ---------- */
 const Title = styled.h3`
