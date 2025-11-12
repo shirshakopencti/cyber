@@ -4,6 +4,7 @@ import { Link, graphql } from 'gatsby';
 import styled from 'styled-components';
 import Layout from '../components/layout';
 import SEO from '../components/seo';
+import { nanoid } from 'nanoid';
 
 /* ----------  LAYOUT WRAPPER  ---------- */
 const PageWrapper = styled.div`
@@ -119,16 +120,14 @@ const Card = styled(Link)`
 /* ----------  INNER CARD ELEMENTS  ---------- */
 const Title = styled.h3`
   color: var(--green, #64ffda);
-  margin: 0 0 .5rem;
+  margin: 0 0 0.5rem;
 `;
-
 const Date = styled.small`
-  opacity: .7;
+  opacity: 0.7;
 `;
-
 const Excerpt = styled.p`
-  margin: .5rem 0 1rem;
-  font-size: .9rem;
+  margin: 0.5rem 0 1rem;
+  font-size: 0.9rem;
 `;
 
 /* ----------  COMPONENT  ---------- */
@@ -141,17 +140,17 @@ export default function BlogIndex({ data }) {
       <PageWrapper>
         <h1>Blog</h1>
         <Grid>
-          {posts.map(({ id, frontmatter, fileAbsolutePath }) => {
-  const slug = `/blog/${fileAbsolutePath.split('/').pop().replace('.md', '')}/`;
-  return (
-    <Card key={id} to={slug}>
-      <Title>{frontmatter.title}</Title>
-      <Date>{frontmatter.date}</Date>
-      <Excerpt>{frontmatter.description || ''}</Excerpt>
-      <span aria-hidden style={{ color: 'var(--green)' }}>Read more →</span>
-    </Card>
-  );
-})}
+          {posts.map(({ id, frontmatter, fields }) => {
+            const uuid = nanoid(6); // cache-buster
+            return (
+              <Card key={id} to={`${fields.slug}?v=${uuid}`}>
+                <Title>{frontmatter.title}</Title>
+                <Date>{frontmatter.date}</Date>
+                <Excerpt>{frontmatter.description || ''}</Excerpt>
+                <span aria-hidden style={{ color: 'var(--green)' }}>Read more →</span>
+              </Card>
+            );
+          })}
         </Grid>
       </PageWrapper>
     </Layout>
@@ -172,7 +171,9 @@ export const query = graphql`
           date
           description
         }
-        fileAbsolutePath
+        fields {
+          slug
+        }
       }
     }
   }

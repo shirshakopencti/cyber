@@ -124,3 +124,34 @@ exports.createSchemaCustomization = ({ actions }) => {
     }
   `);
 };
+
+const { createFilePath } = require('gatsby-source-filesystem');
+
+exports.onCreateNode = ({ node, getNode, actions }) => {
+  if (node.internal.type === 'MarkdownRemark') {
+    const slug = createFilePath({ node, getNode, basePath: 'blog' });
+    actions.createNodeField({ node, name: 'slug', value: `/blog${slug}` });
+  }
+};
+
+exports.createPages = async ({ graphql, actions, reporter }) => {
+  const { createPage } = actions;
+  const result = await graphql(`
+    {
+      allMarkdownRemark(filter: { fileAbsolutePath: { regex: "/blog/" } }) {
+        nodes {
+          fields { slug }
+        }
+      }
+    }
+  `);
+  if (result.errors) return reporter.panic(result.errors);
+
+  result.data.allMarkdownRemark.nodes.forEach(({ fields: { slug } }) => {
+    createPage({
+      path: slug,
+      component: require.resolve('./src/templates/blog-post.js'),
+      context: { slug },
+    });
+  });
+};
