@@ -1,18 +1,45 @@
-/**
- * Implement Gatsby's Node APIs in this file.
- *
- * See: https://www.gatsbyjs.org/docs/node-apis/
- */
-
+/* gatsby-node.js */
 const path = require('path');
-const _ = require('lodash');
+const { createFilePath } = require('gatsby-source-filesystem');
 
-exports.createPages = async ({ actions, graphql, reporter }) => {
+/* ------------------------------------------------------------------ */
+/* 1.  CREATE SLUG FIELD (runs first)                                 */
+/* ------------------------------------------------------------------ */
+exports.onCreateNode = ({ node, getNode, actions }) => {
+  if (node.internal.type === 'MarkdownRemark') {
+    const slug = createFilePath({ node, getNode, basePath: 'blog' });
+    actions.createNodeField({ node, name: 'slug', value: `/blog${slug}` });
+  }
+};
+
+/* ------------------------------------------------------------------ */
+/* 2.  CREATE PAGES (only ONE export)                                 */
+/* ------------------------------------------------------------------ */
+exports.createPages = async ({ graphql, actions, reporter }) => {
   const { createPage } = actions;
-  const postTemplate = path.resolve(`src/templates/post.js`);
-  const tagTemplate = path.resolve('src/templates/tag.js');
 
-  const result = await graphql(`
+  /* ----------  BLOG POSTS  ---------- */
+  const blogResult = await graphql(`
+    {
+      allMarkdownRemark(filter: { fileAbsolutePath: { regex: "/blog/" } }) {
+        nodes {
+          fields { slug }
+        }
+      }
+    }
+  `);
+  if (blogResult.errors) return reporter.panic(blogResult.errors);
+
+  blogResult.data.allMarkdownRemark.nodes.forEach(({ fields: { slug } }) => {
+    createPage({
+      path: slug,
+      component: path.resolve('./src/templates/blog-post.js'),
+      context: { slug },
+    });
+  });
+
+  /* ----------  ORIGINAL POSTS (content/posts/)  ---------- */
+  const postResult = await graphql(`
     {
       postsRemark: allMarkdownRemark(
         filter: { fileAbsolutePath: { regex: "/content/posts/" } }
@@ -21,12 +48,26 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
       ) {
         edges {
           node {
-            frontmatter {
-              slug
-            }
+            frontmatter { slug }
           }
         }
       }
+    }
+  `);
+  if (postResult.errors) return reporter.panic(postResult.errors);
+
+  const posts = postResult.data.postsRemark.edges;
+  posts.forEach(({ node }) => {
+    createPage({
+      path: node.frontmatter.slug,
+      component: path.resolve('./src/templates/post.js'),
+      context: {},
+    });
+  });
+
+  /* ----------  TAG PAGES  ---------- */
+  const tagResult = await graphql(`
+    {
       tagsGroup: allMarkdownRemark(limit: 2000) {
         group(field: frontmatter___tags) {
           fieldValue
@@ -34,57 +75,29 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
       }
     }
   `);
+  if (tagResult.errors) return reporter.panic(tagResult.errors);
 
-  // Handle errors
-  if (result.errors) {
-    reporter.panicOnBuild(`Error while running GraphQL query.`);
-    return;
-  }
-
-  // Create post detail pages
-  const posts = result.data.postsRemark.edges;
-
-  posts.forEach(({ node }) => {
-    createPage({
-      path: node.frontmatter.slug,
-      component: postTemplate,
-      context: {},
-    });
-  });
-
-  // Extract tag data from query
-  const tags = result.data.tagsGroup.group;
-  // Make tag pages
+  const tags = tagResult.data.tagsGroup.group;
   tags.forEach(tag => {
     createPage({
-      path: `/pensieve/tags/${_.kebabCase(tag.fieldValue)}/`,
-      component: tagTemplate,
-      context: {
-        tag: tag.fieldValue,
-      },
+      path: `/pensieve/tags/${tag.fieldValue.replace(/\s+/g, '-').toLowerCase()}/`,
+      component: path.resolve('./src/templates/tag.js'),
+      context: { tag: tag.fieldValue },
     });
   });
 };
 
-// https://www.gatsbyjs.org/docs/node-apis/#onCreateWebpackConfig
+/* ------------------------------------------------------------------ */
+/* 3.  WEBPACK ALIASES & TYPE CUSTOMISATION (unchanged)               */
+/* ------------------------------------------------------------------ */
 exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {
-  // https://www.gatsbyjs.org/docs/debugging-html-builds/#fixing-third-party-modules
   if (stage === 'build-html' || stage === 'develop-html') {
     actions.setWebpackConfig({
       module: {
         rules: [
-          {
-            test: /scrollreveal/,
-            use: loaders.null(),
-          },
-          {
-            test: /animejs/,
-            use: loaders.null(),
-          },
-          {
-            test: /miniraf/,
-            use: loaders.null(),
-          },
+          { test: /scrollreveal/, use: loaders.null() },
+          { test: /animejs/, use: loaders.null() },
+          { test: /miniraf/, use: loaders.null() },
         ],
       },
     });
@@ -112,7 +125,6 @@ exports.createSchemaCustomization = ({ actions }) => {
     type MarkdownRemark implements Node {
       frontmatter: Frontmatter
     }
-
     type Frontmatter {
       title: String
       cover: File @fileByRelativePath
@@ -123,35 +135,4 @@ exports.createSchemaCustomization = ({ actions }) => {
       date: Date
     }
   `);
-};
-
-const { createFilePath } = require('gatsby-source-filesystem');
-
-exports.onCreateNode = ({ node, getNode, actions }) => {
-  if (node.internal.type === 'MarkdownRemark') {
-    const slug = createFilePath({ node, getNode, basePath: 'blog' });
-    actions.createNodeField({ node, name: 'slug', value: `/blog${slug}` });
-  }
-};
-
-exports.createPages = async ({ graphql, actions, reporter }) => {
-  const { createPage } = actions;
-  const result = await graphql(`
-    {
-      allMarkdownRemark(filter: { fileAbsolutePath: { regex: "/blog/" } }) {
-        nodes {
-          fields { slug }
-        }
-      }
-    }
-  `);
-  if (result.errors) return reporter.panic(result.errors);
-
-  result.data.allMarkdownRemark.nodes.forEach(({ fields: { slug } }) => {
-    createPage({
-      path: slug,
-      component: require.resolve('./src/templates/blog-post.js'),
-      context: { slug },
-    });
-  });
 };
