@@ -6,16 +6,6 @@ import SEO from '../components/seo';
 import { nanoid } from 'nanoid';
 import SnakeGame from "../components/SnakeGame";
 
-<PageWrapper>
-  <h1>Blog</h1>
-
-  {/* Temporary Game */}
-  <SnakeGame />
-
-  <BlogGrid> ... </BlogGrid>
-</PageWrapper>
-
-
 /* ----------  PAGE WRAPPER  ---------- */
 const PageWrapper = styled.div`
   max-width: 1100px;
@@ -88,7 +78,7 @@ const Content = styled.div`
 
 /* ---------- SAFE IMAGE RESOLVER ---------- */
 const resolveImage = (imageField) => {
-  if (!imageField) return "/default.jpg"; // fallback
+  if (!imageField) return "/default.jpg";
   return imageField.publicURL || "/default.jpg";
 };
 
@@ -102,6 +92,15 @@ export default function BlogIndex({ data }) {
       <PageWrapper>
         <h1>Blog</h1>
 
+        {/* ---------------------------------------------------
+           TEMPORARY GAME SECTION — REMOVE WHEN NOT NEEDED
+        --------------------------------------------------- */}
+        <div style={{ margin: "2rem 0" }}>
+          <SnakeGame />
+        </div>
+
+        {/* --------------------------------------------------- */}
+
         <BlogGrid>
           {posts.map(({ id, frontmatter, fields }) => {
             const uuid = nanoid(6);
@@ -110,12 +109,10 @@ export default function BlogIndex({ data }) {
             return (
               <BlogCard key={id} to={`${fields.slug}?v=${uuid}`}>
 
-                {/* Image */}
                 <Thumbnail style={{
                   backgroundImage: `url(${imageUrl})`
                 }}/>
 
-                {/* Text Content */}
                 <Content>
                   <h3>{frontmatter.title}</h3>
                   <p className="date">{frontmatter.date}</p>
