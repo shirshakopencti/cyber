@@ -72,8 +72,8 @@ export default function SnakeGame() {
     <div style={{ display: "flex", justifyContent: "center", marginTop: "2rem" }}>
       <canvas
         ref={canvasRef}
-        width={800}
-        height={600}
+        width={1280}
+        height={720}
         style={{
           border: "2px solid #64ffda",
           borderRadius: "8px",
