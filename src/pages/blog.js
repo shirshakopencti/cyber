@@ -130,10 +130,12 @@ const Excerpt = styled.p`
   font-size: 0.9rem;
 `;
 
+/* --------------------
 const Spacer = styled.div`
   height: var(--nav-height); /* 100px normally */
-  width: 10000%;
+  width: 100%;
 `;
+-------------------- */
 
 /* ----------  COMPONENT  ---------- */
 export default function BlogIndex({ data }) {
@@ -143,7 +145,6 @@ export default function BlogIndex({ data }) {
     <Layout>
       <SEO title="Blog" />
       <PageWrapper>
-        <Spacer />
         <h1>Blog</h1>
         <Grid>
           {posts.map(({ id, frontmatter, fields }) => {
