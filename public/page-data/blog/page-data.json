@@ -1,5 +1,5 @@
 {
     "componentChunkName": "component---src-pages-blog-js",
     "path": "/blog/",
-    "result": {"data":{"allMarkdownRemark":{"nodes":[{"id":"36aa49a4-f4d4-59e0-bdcc-4c7645524af0","frontmatter":{"title":"Android Pentesting 101","date":"2025-08-01","description":null},"fields":{"slug":"/blog/blog1/"}}]}},"pageContext":{}},
+    "result": {"data":{"allMarkdownRemark":{"nodes":[{"id":"eb24157b-6710-5419-aad2-6ac565a4ab70","frontmatter":{"title":"Active Directory Pentesting 101","date":"2025-11-14","image":{"publicURL":"/static/2d386293b18f3101b15c294d44f618b1/attached.png"}},"fields":{"slug":"/blog/blog3/"}},{"id":"115320b5-a8c5-5683-b9c3-4eb07a26e750","frontmatter":{"title":"Network Pentesting 101","date":"2025-11-14","image":{"publicURL":"/static/b8cbc8189a6a00b16cc86c765ae8af60/attached.jpg"}},"fields":{"slug":"/blog/blog2/"}},{"id":"2960e521-9cd9-545b-94ac-6f324427f80b","frontmatter":{"title":"Android Pentesting 101","date":"2025-11-11","image":{"publicURL":"/static/258a0b45fd2f702307e9b8bea6b86ffb/attached.jpg"}},"fields":{"slug":"/blog/blog1/"}}]}},"pageContext":{}},
     "staticQueryHashes": ["1994492073","2009693873","2031412112","3825832676"]}

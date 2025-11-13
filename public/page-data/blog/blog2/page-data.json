@@ -1,0 +1,5 @@
+{
+    "componentChunkName": "component---src-templates-blog-post-js",
+    "path": "/blog/blog2/",
+    "result": {"data":{"markdownRemark":{"html":"<p>Your write-up here…</p>","frontmatter":{"title":"Network Pentesting 101","date":"2025-11-14","description":null,"image":{"publicURL":"/static/b8cbc8189a6a00b16cc86c765ae8af60/attached.jpg"}}}},"pageContext":{"slug":"/blog/blog2/"}},
+    "staticQueryHashes": ["1994492073","2009693873","2031412112","3825832676"]}
