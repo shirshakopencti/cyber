@@ -42,7 +42,7 @@ export default function SnakeGame() {
       if (
         head.x < 0 ||
         head.y < 0 ||
-        head.x >= 1280 ||
+        head.x >= 1200 ||
         head.y >= 800 ||
         snake.slice(1).some((p) => p.x === head.x && p.y === head.y)
       ) {
@@ -78,7 +78,6 @@ export default function SnakeGame() {
           border: "2px solid #64ffda",
           borderRadius: "8px",
           background: "#0a192f",
-          maxWidth: "100%",
         }}
       />
     </div>
