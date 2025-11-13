@@ -11,6 +11,7 @@ const PageWrapper = styled.div`
   max-width: 1000px;
   margin: 0 auto;
   padding: 4rem 2rem;
+  padding-top: calc(var(--nav-height) + 2rem);
 `;
 
 /* ----------  GRID  ---------- */
