@@ -1,6 +1,6 @@
 ---
-title: "Android Pentesting 101"
-date: "2025-11-11"
+title: "Network Pentesting 101"
+date: "2025-11-14"
 image: "./attached.jpg"
 ---
 
