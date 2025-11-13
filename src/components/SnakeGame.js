@@ -42,8 +42,8 @@ export default function SnakeGame() {
       if (
         head.x < 0 ||
         head.y < 0 ||
-        head.x >= 640 ||
-        head.y >= 480 ||
+        head.x >= 800 ||
+        head.y >= 600 ||
         snake.slice(1).some((p) => p.x === head.x && p.y === head.y)
       ) {
         snake = [{ x: 160, y: 160 }];
