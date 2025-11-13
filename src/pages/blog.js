@@ -132,7 +132,7 @@ const Excerpt = styled.p`
 
 const Spacer = styled.div`
   height: var(--nav-height); /* 100px normally */
-  width: 10%;
+  width: 10000%;
 `;
 
 /* ----------  COMPONENT  ---------- */
