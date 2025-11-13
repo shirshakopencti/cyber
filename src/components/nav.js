@@ -171,9 +171,9 @@ const Nav = ({ isHome }) => {
     };
   }, []);
 
-  const timeout = isHome ? loaderDelay : 0;
-  const fadeClass = isHome ? 'fade' : '';
-  const fadeDownClass = isHome ? 'fadedown' : '';
+  const timeout = loaderDelay;          // always run transition
+  const fadeClass = 'fade';
+  const fadeDownClass = 'fadedown';
 
   const Logo = (
     <div className="logo" tabIndex="-1">
