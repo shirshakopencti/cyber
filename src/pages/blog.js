@@ -135,7 +135,7 @@ export default function BlogIndex({ data }) {
   const posts = data.allMarkdownRemark.nodes;
 
   return (
-    <Layout>
+    <Layout isHome={false}>
       <SEO title="Blog" />
       <PageWrapper>
         <h1>Blog</h1>

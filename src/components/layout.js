@@ -13,11 +13,13 @@ const StyledContent = styled.div`
   min-height: 100vh;
 `;
 
-const Layout = ({ children, location }) => {
-  const isHome = location?.pathname === '/';
+const Layout = ({ children, location, isHome: explicitIsHome }) => {
+  // 1.  use explicit prop if given, else compute from location
+  const detectedIsHome = location?.pathname === '/';
+  const isHome = explicitIsHome !== undefined ? explicitIsHome : detectedIsHome;
+
   const [isLoading, setIsLoading] = useState(isHome);
 
-  // Sets target="_blank" rel="noopener noreferrer" on external links
   const handleExternalLinks = () => {
     const allLinks = Array.from(document.querySelectorAll('a'));
     if (allLinks.length > 0) {
@@ -31,10 +33,7 @@ const Layout = ({ children, location }) => {
   };
 
   useEffect(() => {
-    if (isLoading) {
-      return;
-    }
-
+    if (isLoading) return;
     if (safeLocation.hash) {
       const id = safeLocation.hash.substring(1);
       setTimeout(() => {
@@ -45,18 +44,15 @@ const Layout = ({ children, location }) => {
         }
       }, 0);
     }
-
     handleExternalLinks();
   }, [isLoading]);
 
   return (
     <>
       <Head />
-
       <div id="root">
         <ThemeProvider theme={theme}>
           <GlobalStyle />
-
           <a className="skip-to-content" href="#content">
             Skip to Content
           </a>
@@ -84,6 +80,7 @@ const Layout = ({ children, location }) => {
 Layout.propTypes = {
   children: PropTypes.node.isRequired,
   location: PropTypes.object.isRequired,
+  isHome: PropTypes.bool,          // <-- new
 };
 
 export default Layout;
