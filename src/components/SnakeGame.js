@@ -42,8 +42,8 @@ export default function SnakeGame() {
       if (
         head.x < 0 ||
         head.y < 0 ||
-        head.x >= 800 ||
-        head.y >= 600 ||
+        head.x >= 1280 ||
+        head.y >= 800 ||
         snake.slice(1).some((p) => p.x === head.x && p.y === head.y)
       ) {
         snake = [{ x: 160, y: 160 }];
@@ -73,7 +73,7 @@ export default function SnakeGame() {
       <canvas
         ref={canvasRef}
         width={1280}
-        height={720}
+        height={800}
         style={{
           border: "2px solid #64ffda",
           borderRadius: "8px",
