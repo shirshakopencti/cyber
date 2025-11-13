@@ -68,7 +68,7 @@ const Card = styled(Link)`
   transition: transform .25s, background .25s;
   &:hover {
   transform: translateY(-4px);
-  background: linear-gradient(135deg, #ff8a00 0%, #da1b60 100%);
+  background: linear-gradient(135deg, #00c853 0%, #00b8d4 100%);
   box-shadow: 0 0 25px rgba(212, 80, 18, 0.4);
   color: #0a192f; /* Dark navy text for contrast */
 }
