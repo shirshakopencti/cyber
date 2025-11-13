@@ -1,4 +1,3 @@
-/* src/pages/blog.js  –  drop-in redesign */
 import React from 'react';
 import { Link, graphql } from 'gatsby';
 import styled from 'styled-components';
@@ -6,129 +5,74 @@ import Layout from '../components/layout';
 import SEO from '../components/seo';
 import { nanoid } from 'nanoid';
 
-/* ----------  LAYOUT WRAPPER  ---------- */
+/* ----------  PAGE WRAPPER  ---------- */
 const PageWrapper = styled.div`
-  max-width: 1000px;
+  max-width: 1100px;
   margin: 0 auto;
   padding: 4rem 2rem;
   padding-top: calc(var(--nav-height) + 2rem);
 `;
 
 /* ----------  GRID  ---------- */
-const Grid = styled.div`
+const BlogGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 2rem;
-  margin-top: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2.5rem;
+  margin-top: 3rem;
 `;
 
-/* ----------  CARD  ----------
-   Pick ONE of the four blocks below and delete the rest.
------------------------------------------------------------------- */
-
-/* 1  Neon-Halo Card  ---------------------------------------------
-const Card = styled(Link)`
-  position: relative;
-  background: #0a192f;
-  border: 1px solid #64ffda;
-  border-radius: 12px;
-  padding: 1.8rem;
-  text-decoration: none;
-  color: #ccd6f6;
-  transition: transform .25s, box-shadow .25s;
-  overflow: hidden;
-  &::before{
-    content: '';
-    position: absolute;
-    inset: -2px;
-    background: conic-gradient(from 180deg at 50% 50%, #64ffda, #0a192f, #64ffda);
-    z-index: -1;
-    filter: blur(8px);
-    opacity: 0;
-    transition: opacity .25s;
-  }
-  &:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 24px rgba(28, 247, 255, 0.24);
-    &::before{ opacity: .7; }
-  }
-`;
------------------------------------------------------------------- */
-
-/* 2  Glass-morphism Card  ----------------------------------------*/
-const Card = styled(Link)`
-  background: rgba(10, 25, 47, .55);
+/* ----------  CARD  ---------- */
+const BlogCard = styled(Link)`
+  display: block;
+  background: rgba(10, 25, 47, 0.55);
   backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(100, 255, 218, .18);
+  border: 1px solid rgba(100, 255, 218, 0.15);
   border-radius: 16px;
-  padding: 1.8rem;
+  overflow: hidden;
   text-decoration: none;
   color: #ccd6f6;
-  transition: transform .25s, background .25s;
+  transition: all 0.3s ease;
+
   &:hover {
-  transform: translateY(-4px);
-  background: linear-gradient(135deg, #007cf0 0%, #00dfd8 100%);
-  box-shadow: 0 0 25px rgba(0, 255, 163, 0.3);
-  color: #0a192f; /* Dark navy text for contrast */
-}
-
-&:hover h3,
-&:hover p,
-&:hover span {
-  color: #0a192f;
-}
-
-
-`;
-/*------------------------------------------------------------------ */
-
-/* 3  Retro-Terminal Card  ----------------------------------------
-const Card = styled(Link)`
-  background: #000;
-  border-left: 4px solid #64ffda;
-  padding: 1.5rem 1.8rem;
-  text-decoration: none;
-  color: #64ffda;
-  font-family: 'Courier New', monospace;
-  transition: transform .2s, color .2s;
-  box-shadow: 2px 2px 0 #64ffda;
-  &:hover {
-    transform: translateY(-4px);
-    color: #fff;
-    box-shadow: 4px 4px 0 #64ffda;
+    transform: translateY(-6px);
+    box-shadow: 0 12px 28px rgba(0, 255, 200, 0.18);
+    border-color: rgba(100, 255, 218, 0.45);
   }
 `;
------------------------------------------------------------------- */
 
-/* 4  Minimal-Paper Card  ---------------------------------------- 
-const Card = styled(Link)`
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  padding: 2rem;
-  text-decoration: none;
-  color: #111827;
-  transition: transform .2s, box-shadow .2s;
-  box-shadow: 0 1px 3px rgba(0,0,0,.04);
-  &:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 6px 18px rgba(0,0,0,.08);
+const Thumbnail = styled.div`
+  height: 180px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+`;
+
+const Content = styled.div`
+  padding: 1.4rem 1.6rem;
+
+  h3 {
+    margin: 0 0 0.4rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #e6f1ff;
   }
-`;
----------------------------------------------------------------- */
 
-/* ----------  INNER CARD ELEMENTS  ---------- */
-const Title = styled.h3`
-  color: var(--green, #64ffda);
-  margin: 0 0 0.5rem;
-`;
-const Date = styled.small`
-  opacity: 0.7;
-`;
-const Excerpt = styled.p`
-  margin: 0.5rem 0 1rem;
-  font-size: 0.9rem;
+  .date {
+    font-size: 0.9rem;
+    color: #8892b0;
+    margin-bottom: 0.8rem;
+  }
+
+  .readmore {
+    margin-top: 1rem;
+    color: #64ffda;
+    font-size: 0.95rem;
+    transition: 0.2s;
+
+    &:hover {
+      color: #00f5ff;
+    }
+  }
 `;
 
 /* ----------  COMPONENT  ---------- */
@@ -140,19 +84,31 @@ export default function BlogIndex({ data }) {
       <SEO title="Blog" />
       <PageWrapper>
         <h1>Blog</h1>
-        <Grid>
+
+        <BlogGrid>
           {posts.map(({ id, frontmatter, fields }) => {
-            const uuid = nanoid(6); // cache-buster
+            const uuid = nanoid(6);
             return (
-              <Card key={id} to={`${fields.slug}?v=${uuid}`}>
-                <Title>{frontmatter.title}</Title>
-                <Date>{frontmatter.date}</Date>
-                <Excerpt>{frontmatter.description || ''}</Excerpt>
-                <span aria-hidden style={{ color: 'var(--green)' }}>Read more →</span>
-              </Card>
+              <BlogCard key={id} to={`${fields.slug}?v=${uuid}`}>
+
+                {/* Image */}
+                <Thumbnail
+                  style={{
+                    backgroundImage: `url(${frontmatter.image})`,
+                  }}
+                />
+
+                {/* Text Content */}
+                <Content>
+                  <h3>{frontmatter.title}</h3>
+                  <p className="date">{frontmatter.date}</p>
+                  <span className="readmore">Read more →</span>
+                </Content>
+
+              </BlogCard>
             );
           })}
-        </Grid>
+        </BlogGrid>
       </PageWrapper>
     </Layout>
   );
@@ -170,7 +126,7 @@ export const query = graphql`
         frontmatter {
           title
           date
-          description
+          image
         }
         fields {
           slug
