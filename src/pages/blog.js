@@ -75,6 +75,12 @@ const Content = styled.div`
   }
 `;
 
+/* ---------- SAFE IMAGE RESOLVER ---------- */
+const resolveImage = (imageField) => {
+  if (!imageField) return "/default.jpg"; // fallback
+  return imageField.publicURL || "/default.jpg";
+};
+
 /* ----------  COMPONENT  ---------- */
 export default function BlogIndex({ data }) {
   const posts = data.allMarkdownRemark.nodes;
@@ -88,15 +94,15 @@ export default function BlogIndex({ data }) {
         <BlogGrid>
           {posts.map(({ id, frontmatter, fields }) => {
             const uuid = nanoid(6);
+            const imageUrl = resolveImage(frontmatter.image);
+
             return (
               <BlogCard key={id} to={`${fields.slug}?v=${uuid}`}>
 
                 {/* Image */}
-                <Thumbnail
-                  style={{
-                    backgroundImage: `url(${frontmatter.image})`,
-                  }}
-                />
+                <Thumbnail style={{
+                  backgroundImage: `url(${imageUrl})`
+                }}/>
 
                 {/* Text Content */}
                 <Content>
@@ -126,7 +132,9 @@ export const query = graphql`
         frontmatter {
           title
           date
-          image
+          image {
+            publicURL
+          }
         }
         fields {
           slug
