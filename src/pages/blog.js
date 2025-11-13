@@ -4,6 +4,17 @@ import styled from 'styled-components';
 import Layout from '../components/layout';
 import SEO from '../components/seo';
 import { nanoid } from 'nanoid';
+import SnakeGame from "../components/SnakeGame";
+
+<PageWrapper>
+  <h1>Blog</h1>
+
+  {/* Temporary Game */}
+  <SnakeGame />
+
+  <BlogGrid> ... </BlogGrid>
+</PageWrapper>
+
 
 /* ----------  PAGE WRAPPER  ---------- */
 const PageWrapper = styled.div`
