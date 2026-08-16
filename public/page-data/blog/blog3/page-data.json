@@ -1,5 +1,0 @@
-{
-    "componentChunkName": "component---src-templates-blog-post-js",
-    "path": "/blog/blog3/",
-    "result": {"data":{"markdownRemark":{"html":"<p>Your write-up here…</p>","frontmatter":{"title":"Active Directory Pentesting 101","date":"2025-11-14","description":null,"image":{"publicURL":"/static/2d386293b18f3101b15c294d44f618b1/attached.png"}}}},"pageContext":{"slug":"/blog/blog3/"}},
-    "staticQueryHashes": ["1994492073","2009693873","2031412112","3825832676"]}
