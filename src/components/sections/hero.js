@@ -23,6 +23,7 @@ const StyledHeroSection = styled.section`
     font-family: var(--font-mono);
     font-size: clamp(var(--fz-sm), 5vw, var(--fz-md));
     font-weight: 400;
+    text-shadow: 0 0 8px rgba(211, 47, 47, 0.4);
 
     @media (max-width: 480px) {
       margin: 0 0 20px 2px;
@@ -33,6 +34,14 @@ const StyledHeroSection = styled.section`
     margin-top: 5px;
     color: var(--slate);
     line-height: 0.9;
+
+    .highlight {
+      color: var(--white);
+      text-shadow: 0 0 10px rgba(211, 47, 47, 0.5);
+      u {
+        text-decoration-color: var(--green);
+      }
+    }
   }
 
   p {
